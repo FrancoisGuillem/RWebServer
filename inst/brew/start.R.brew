@@ -4,7 +4,7 @@
 root <- "<%= root %>"
 
 setwd(root)
-library(RWebApp)
+library(RWebServer)
 
 # libraries
 cat("Loading libraries\n")
@@ -40,10 +40,10 @@ for (f in dataFiles) {
 }
 cat("\n")
 
-.http.request <- RWebApp:::.http.request
+.http.request <- RWebServer:::.http.request
 
 init <- function() {
-  assign("out", "", envir = FastRWeb:::.e)
+  assign("out", "", envir = RWebServer:::.e)
   
   ## get a temporary file name for this session
   tmpfile<<-paste('tmp-',paste(sprintf('%x',as.integer(runif(4)*65536)),collapse=''),'.tmp',sep='')
