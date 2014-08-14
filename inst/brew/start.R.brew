@@ -4,7 +4,7 @@
 root <- "<%= root %>"
 
 setwd(root)
-library(RWebApp)
+library(RWebServer)
 
 # libraries
 cat("Loading libraries\n")
@@ -40,7 +40,7 @@ for (f in dataFiles) {
 }
 cat("\n")
 
-.http.request <- RWebApp:::.http.request
+.http.request <- RWebServer:::.http.request
 
 init <- function() {
   assign("out", "", envir = FastRWeb:::.e)
