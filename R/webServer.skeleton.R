@@ -1,6 +1,6 @@
-#' Create a skeleton for a new web application
+#' Create a skeleton for a new web server
 #'
-#' \code{webApp.skeleton} creates a foldeer with all configuration files and
+#' \code{webServer.skeleton} creates a folder with all configuration files and
 #' directories that will be needed by the R web server.
 #' 
 #' @param name
@@ -13,11 +13,11 @@
 #' if TRUE and the directory already exists it will be overwritten
 #' 
 #' @details
-#' In the application directory, \code{webApp.skeleton} will create the following
+#' In the application directory, \code{webServer.skeleton} will create the following
 #' files and folders :
 #' \itemize{
 #' \item rserve.conf: Rserve configuration file. you should not edit it.
-#' \item onStartWebApp.R: script that is executed when server starts. You should 
+#' \item onStartWebServer.R: script that is executed when server starts. You should 
 #' not edit it.
 #' \item packages: list of the libraries to load.
 #' \item routes: Routes for your application
@@ -33,7 +33,7 @@
 #' }
 #' 
 #' @export
-webApp.skeleton <- function(name="myRWebApp", path = ".", port=8080, force=FALSE) {
+webServer.skeleton <- function(name="myRWebServer", path = ".", port=8080, force=FALSE) {
   if (!grepl("^(/|~)", path)) path <- file.path(getwd(), path)
   root <- file.path(path, name)
   if (file.exists(root) & !force) stop("Directory already exists.")
@@ -42,13 +42,13 @@ webApp.skeleton <- function(name="myRWebApp", path = ".", port=8080, force=FALSE
   dir.create(file.path(root, "R"))
   dir.create(file.path(root, "lib"))
   dir.create(file.path(root, "data"))
-  file.copy(system.file("packages", package="RWebApp"), root)
-  file.copy(system.file("routes", package="RWebApp"), root)
-  file.copy(system.file("READ_AND_DELETE_ME.txt", package="RWebApp"), root)
-  file.copy(system.file("index.R", package="RWebApp"), file.path(root, "R"))
-  brew(system.file("brew/rserve.conf.brew", package="RWebApp"), 
+  file.copy(system.file("packages", package="RWebServer"), root)
+  file.copy(system.file("routes", package="RWebServer"), root)
+  file.copy(system.file("READ_AND_DELETE_ME.txt", package="RWebServer"), root)
+  file.copy(system.file("index.R", package="RWebServer"), file.path(root, "R"))
+  brew(system.file("brew/rserve.conf.brew", package="RWebServer"), 
        file.path(root, "rserve.conf"))
-  brew(system.file("brew/start.R.brew", package="RWebApp"), 
-       file.path(root, "onStartWebApp.R"))
-  return()
+  brew(system.file("brew/start.R.brew", package="RWebServer"), 
+       file.path(root, "onStartWebServer.R"))
+  return(invisible(NULL))
 }

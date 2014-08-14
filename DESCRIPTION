@@ -1,10 +1,10 @@
-Package: RWebApp
+Package: RWebServer
 Type: Package
 Title: simple R web applications
 Version: 0.1
 Date: 2014-08-13
 Author: francois Guillem <guillem.francois@gmail.com>
 Maintainer: francois Guillem <guillem.francois@gmail.com>
-Description: Easily create and start web applications
+Description: Easily create and start web server based on R
 License: What license is it under?
 Depends: Rserve, brew

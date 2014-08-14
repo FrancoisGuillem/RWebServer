@@ -2,4 +2,4 @@ socket <%= root %>/socket
 sockmod 0666
 http.port <%= port %>
 control enable
-source <%= root %>/onStartWebApp.R
+source <%= root %>/onStartWebServer.R

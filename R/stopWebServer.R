@@ -3,6 +3,6 @@
 #' \code{stopWebApp} stops all R servers.
 #' 
 #' @export
-stopWebApp <- function() {
+stopWebServer <- function() {
   system("killall -INT Rserve")
 }
