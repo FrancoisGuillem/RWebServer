@@ -1,14 +1,17 @@
 ## environemnt to store result and headers in
 .e <- new.env(parent = emptyenv())
 
+#' @export
 out <- function(..., sep='', eol='\n')
     .e$out <- c(.e$out, paste(..., sep=sep, collapse=eol))
 
+#' @export
 oclear <- function(output=TRUE, headers=FALSE) {
   if (output) .e$out <- character(0)
   if (headers) .e$headers <- NULL
 }
 
+#' @export
 otable <- function(..., tab='', tr='', cs='</td><td>') {
   a <- list(...)
   if (length(a)==1 && is.list(a[[1]])) a <- a[[1]]
@@ -18,9 +21,11 @@ otable <- function(..., tab='', tr='', cs='</td><td>') {
   .e$out <- c(.e$out, paste("<table ",tab,">\n",sep=''), tout, '</table>')
 }
 
+#' @export
 ohead <- function(..., level=3)
   .e$out <- c(.e$out, paste("<h",level,">",paste(...,sep=''),"</h",level,">",sep=''))
 
+#' @export
 oprint <- function(..., sep='\n')
   .e$out <- c(.e$out, paste("<pre>",paste(capture.output(print(...)),collapse=sep),"</pre>",sep=''))
 
@@ -36,6 +41,7 @@ oprint <- function(..., sep='\n')
         , disabled, sep='')
 }
 
+#' @export
 oselection <- function(name, text, values=text, sel.index, sel.value, size, ...) {
   if (!missing(sel.index) && !missing(sel.value)) stop("only one of 'sel.index' and 'sel.value' can be specified")
   if (!length(name)) stop("element name must be not be empty")
@@ -51,6 +57,7 @@ oselection <- function(name, text, values=text, sel.index, sel.value, size, ...)
               "</select>")
 }
 
+#' @export
 oinput <- function(name, value, size, type="text", checked=FALSE, ...) {
   if (!length(name)) stop("element name must be not be empty")
   name <- as.character(name)[1]
@@ -60,9 +67,10 @@ oinput <- function(name, value, size, type="text", checked=FALSE, ...) {
   .e$out <- c(.e$out, paste("<input type=\"", as.character(type)[1], "\" name=\"",name,"\"", value, size, checked, .opts(...), ">", sep=''))
 }
 
+#' @export
 osubmit <- function(name="submit", ...) oinput(name=name, type="submit", ...)
 
-
+#' @export
 arequest <- function(txt, target, where, ..., attr='') {
      if (length(list(...)))
           paste("<a href='javascript:void(0);' onclick=\"javascript:req('",target,"','",where,"','",gsub("'","&#39;", paste(..., sep=''), fixed=TRUE),"');\"",attr,">",txt,"</a>",sep='')
@@ -70,6 +78,11 @@ arequest <- function(txt, target, where, ..., attr='') {
           paste("<a href='javascript:void(0);' onclick=\"javascript:req('",target,"','",where,"');\"",attr,">",txt,"</a>",sep='')
 }
 
+odump <- function(var) {
+  textConnection(var, )
+}
+
+#' @export
 add.header <- function(txt) {
     if (!is.null(.e$headers))
       .e$headers <- as.character(txt)
@@ -81,6 +94,8 @@ add.header <- function(txt) {
 #link <- function(url,target,par,...) paste("<a href=# onclick=\"req('",where,"','",target,"','",par,"');\">",...,"</a>",sep='',co
 
 # note: .e$headers are added by WebResult automatically
+
+#' @export
 done <- function(..., cmd="html", type="text/html; charset=utf-8")
   WebResult(cmd, ifelse(length(list(...)), paste(as.character(.e$out),paste(...,sep='',collapse='\n'),sep='',collapse='\n'), paste(as.character(.e$out),collapse='\n')), type)
 

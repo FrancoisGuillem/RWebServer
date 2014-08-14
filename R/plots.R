@@ -1,3 +1,4 @@
+#' @export
 WebPlot <- function(width=640, height=480, type='png', ...) {
   file <- paste('tmp-',paste(sprintf('%x',as.integer(runif(4)*65536)),collapse=''),'.tmp',sep='')
   Cairo(width, height, type=type, file=file, ...)

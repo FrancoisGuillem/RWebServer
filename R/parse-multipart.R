@@ -2,6 +2,40 @@
 ## in particular Rook 1.0-3, file Rook/R/utils.R, method "parse" from the "Multipart" class
 ## The original is Copyright by Jeffrey Horner, licensed under GPL-2
 
+#' Parsing of POST request multi-part body
+#' 
+#' \code{parse.multipart} parses the result of a POST request that is in a 
+#' multi-part encoding. This is typically the case when a form is submitted 
+#' with "\code{enctype='multipart/form-data'}" property and "\code{file}" input 
+#' types.
+#' 
+#' @param request 
+#' Request interface object as defined by the FastRWeb interface. 
+#' \code{parse.multipart} will use \code{c.type}, \code{c.length} and \code{body} 
+#' elements of the object.
+#' 
+#' @return 
+#' On success a named list of values in the form. Scalar values are passed 
+#' literally as strings, files (multi-part chunks) are passed as lists with 
+#' named elements \code{content_type}, \code{tempfile} (file containing the 
+#' content), \code{filename} (name of the file as specified in the encoding,if 
+#' present) and \code{head} (character vector of content headers).
+#' 
+#' On failure NULL with a warning.
+#' 
+#' @note
+#' The typical use is along the lines of:
+#' 
+#' \code{if (grepl("^multipart", request$s.type)) pars <- parse.multipart()}
+#' 
+#' The function uses warnings to communicate parsing issues. While debugging, it 
+#' may be usedful to convert them to errors via options(warn=2) so they will be 
+#' visible on the client side.
+#' 
+#' @author
+#' The original parser code was written by Jeffrey Horner for the Rook package.
+#' 
+#' @export
 parse.multipart <- function(request = .GlobalEnv$request) {
   if (is.null(request$c.type) || is.null(request$body)) return(NULL)
 

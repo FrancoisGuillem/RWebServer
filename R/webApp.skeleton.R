@@ -1,3 +1,38 @@
+#' Create a skeleton for a new web application
+#'
+#' \code{webApp.skeleton} creates a foldeer with all configuration files and
+#' directories that will be needed by the R web server.
+#' 
+#' @param name
+#' the name of the directory to create
+#' @param path
+#' path where to create the directory
+#' @param port
+#' port that your application will be listening for
+#' @param force
+#' if TRUE and the directory already exists it will be overwritten
+#' 
+#' @details
+#' In the application directory, \code{webApp.skeleton} will create the following
+#' files and folders :
+#' \itemize{
+#' \item rserve.conf: Rserve configuration file. you should not edit it.
+#' \item onStartWebApp.R: script that is executed when server starts. You should 
+#' not edit it.
+#' \item packages: list of the libraries to load.
+#' \item routes: Routes for your application
+#' \item lib: All R files in this folder will be sourced when the application
+#' starts. Useful to define functions or constants.
+#' \item data: all data files in this folder will be loaded when the application
+#' starts. The data files have to be created with the "save" function.
+#' \item R: This folder contains the R files that will be executed when the 
+#' application receives a query. Each script have to define at least a function
+#' called "run". When the server receives a query like 
+#' "\code{http://myserver:8080/myRscript?x=1y=2}", it will source the script "\code{myScript.R}"
+#' and execute "\code{run(x="1", y="2")}".
+#' }
+#' 
+#' @export
 webApp.skeleton <- function(name="myRWebApp", path = ".", port=8080, force=FALSE) {
   if (!grepl("^(/|~)", path)) path <- file.path(getwd(), path)
   root <- file.path(path, name)
@@ -10,10 +45,10 @@ webApp.skeleton <- function(name="myRWebApp", path = ".", port=8080, force=FALSE
   file.copy(system.file("packages", package="RWebApp"), root)
   file.copy(system.file("routes", package="RWebApp"), root)
   file.copy(system.file("READ_AND_DELETE_ME.txt", package="RWebApp"), root)
+  file.copy(system.file("index.R", package="RWebApp"), file.path(root, "R"))
   brew(system.file("brew/rserve.conf.brew", package="RWebApp"), 
        file.path(root, "rserve.conf"))
   brew(system.file("brew/start.R.brew", package="RWebApp"), 
        file.path(root, "onStartWebApp.R"))
-  cat("run <- function(...) 'Your R web application works !'", 
-      file=file.path(root, "R/index.R"))
+  return()
 }

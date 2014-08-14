@@ -25,7 +25,6 @@
     # find the script
     request$path.info <- ''
     if (path == "/") path <- "/index"
-    cat(root, path)
     sfn <- sprintf("%s/R/%s.R", root, path)
     if (!file.exists(sfn)) { # if the file doesn't exist, we try to separate script name from PATH_INFO
       left <- path
