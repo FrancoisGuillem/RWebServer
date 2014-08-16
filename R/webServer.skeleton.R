@@ -34,7 +34,7 @@
 #' 
 #' @export
 webServer.skeleton <- function(name="myRWebServer", path = ".", port=8080, force=FALSE) {
-  if (!grepl("^(/|~)", path)) path <- file.path(getwd(), path)
+  path <- tools:::file_path_as_absolute(path)
   root <- file.path(path, name)
   if (file.exists(root) & !force) stop("Directory already exists.")
   dir.create(root)
