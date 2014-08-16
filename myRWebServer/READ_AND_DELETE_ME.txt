@@ -1,8 +1,0 @@
-
-
-All scripts in the "lib" folder will be sourced when the web application
-starts. It is useful for defining functions that will be available in all
-scripts.
-
-If you want some datasets or variables to be available in all scripts save them
-with the "save" function and put them in the "data" folder.
