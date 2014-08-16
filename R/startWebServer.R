@@ -12,4 +12,10 @@ startWebServer <- function(path) {
   if (!file.exists(conf)) stop("Conf file not found. Are you sure the path is the good one ?")
   Rserve(args = sprintf("--RS-conf %s --no-save --vanilla", conf))
   
+  conf <- readLines(conf)
+  port <- conf[grep("http.port", conf)]
+  port <- gsub("[^0-9]", "", port)
+  
+  cat("Server started on port", port, "\n")
+  browseURL(paste0("http://localhost:", port))
 }
