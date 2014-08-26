@@ -8,3 +8,4 @@ Maintainer: francois Guillem <guillem.francois@gmail.com>
 Description: Easily create and start web server based on R
 License: What license is it under?
 Depends: Rserve, brew
+Suggests: testthat, httr
