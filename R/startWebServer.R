@@ -17,5 +17,6 @@ startWebServer <- function(path) {
   port <- gsub("[^0-9]", "", port)
   
   cat("Server started on port", port, "\n")
-  browseURL(paste0("http://localhost:", port))
+  cat("You can test your installation by running the following comamnd:\n")
+  cat("    browseURL('http://localhost:", port, "')\n", sep="")
 }
