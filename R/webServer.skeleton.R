@@ -42,13 +42,13 @@ webServer.skeleton <- function(name="myRWebServer", path = ".", port=8080, force
   dir.create(file.path(root, "R"))
   dir.create(file.path(root, "lib"))
   dir.create(file.path(root, "data"))
-  file.copy(system.file("packages", package="RWebServer"), root)
-  file.copy(system.file("routes", package="RWebServer"), root)
-  file.copy(system.file("READ_AND_DELETE_ME.txt", package="RWebServer"), root)
-  file.copy(system.file("index.R", package="RWebServer"), file.path(root, "R"))
-  brew(system.file("brew/rserve.conf.brew", package="RWebServer"), 
+  file.copy(system.file("templates/packages", package="RWebServer"), root)
+  file.copy(system.file("templates/routes", package="RWebServer"), root)
+  file.copy(system.file("templates/READ_AND_DELETE_ME.txt", package="RWebServer"), root)
+  file.copy(system.file("templates/index.R", package="RWebServer"), file.path(root, "R"))
+  brew(system.file("templates/rserve.conf.brew", package="RWebServer"), 
        file.path(root, "rserve.conf"))
-  brew(system.file("brew/start.R.brew", package="RWebServer"), 
+  brew(system.file("templates/start.R.brew", package="RWebServer"), 
        file.path(root, "onStartWebServer.R"))
   return(invisible(NULL))
 }
