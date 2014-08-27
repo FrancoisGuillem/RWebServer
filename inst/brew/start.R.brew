@@ -2,6 +2,7 @@
 # doing !
 
 root <- "<%= root %>"
+options(rws_root=root)
 
 setwd(root)
 library(RWebServer)
@@ -38,6 +39,19 @@ for (f in dataFiles) {
     cat(" -", f, ": ok")
   }, error=function(e) cat(" -", f, ":", e))
 }
+cat("\n")
+
+# routes
+cat("Loading routes\n")
+routes <- readLines("routes")
+# Remove comments
+routes <- routes[!grepl("^ *#", routes)]
+routes <- gsub(" *#.*$", "", routes)
+routes <- strsplit(routes, " ")
+routes <- lapply(routes, function(x) RWebServer:::initRoutes(x[1], x[2]))
+
+options(rws_routes=routes)
+
 cat("\n")
 
 .http.request <- RWebServer:::.http.request

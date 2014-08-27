@@ -18,13 +18,20 @@
       ue <- rawToChar(request$body)
       lapply(strsplit(strsplit(ue,'&')[[1]], '='),function(x) pars[[URLdecode(x[1])]] <<- URLdecode(x[2]))
     }
-    if (grepl("^multipart", request$c.type)) pars <- parse.multipart()
+    if (grepl("^multipart", request$c.type)) pars <- parse.multipart(request)
     # add qs
     lapply(strsplit(strsplit(qs,'&')[[1]], '='),function(x) if (length(x) > 1L) pars[[URLdecode(x[1])]] <<- URLdecode(x[2]))
   
+    # Extract parameters in URL (routes)
+    if (path == "/") path <- "/index"
+    tmp <- RWebServer:::detectRoutes(path, getOption("rws_routes"))
+    path <- tmp$path
+    if (length(tmp$pars) > 0) {
+      pars[names(tmp$pars)] <- tmp$pars
+    }
+    
     # find the script
     request$path.info <- ''
-    if (path == "/") path <- "/index"
     sfn <- sprintf("%s/R/%s.R", root, path)
     if (!file.exists(sfn)) { # if the file doesn't exist, we try to separate script name from PATH_INFO
       left <- path

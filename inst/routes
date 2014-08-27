@@ -1,1 +1,5 @@
-# Currently unused
+# Define roots in this file. For instance, if you define the following route :
+# /foo/{v1}/{v2} /bar
+# then when you request "http://localhost:8080/foo/1/2", the server will
+# source the script "R/bar.R" and execute the "run" function with parameters
+# v1="2" and v2="2"
