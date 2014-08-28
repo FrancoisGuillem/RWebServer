@@ -3,8 +3,10 @@
 
 root <- "<%= root %>"
 options(rws_root=root)
-
 setwd(root)
+
+rm(root)
+
 library(RWebServer)
 
 # libraries
@@ -19,6 +21,8 @@ for (l in libs) {
 }
 cat("\n")
 
+rm(libs)
+
 # Scripts
 cat("Sourcing scripts in 'lib' folder\n")
 scripts <- list.files("lib")
@@ -29,6 +33,8 @@ for (f in scripts) {
   }, error=function(e) cat(" -", f, ":", e))
 }
 cat("\n")
+
+rm(scripts)
 
 # data
 cat("Loading data in 'data' folder\n")
@@ -41,6 +47,8 @@ for (f in dataFiles) {
 }
 cat("\n")
 
+rm(dataFiles)
+
 # routes
 cat("Loading routes\n")
 routes <- readLines("routes")
@@ -52,17 +60,20 @@ routes <- lapply(routes, function(x) RWebServer:::initRoutes(x[1], x[2]))
 
 options(rws_routes=routes)
 
+rm(routes)
+
 cat("\n")
 
 .http.request <- RWebServer:::.http.request
 
-init <- function() {
+.init <- function() {
   assign("out", "", envir = RWebServer:::.e)
   
   ## get a temporary file name for this session
   tmpfile<<-paste('tmp-',paste(sprintf('%x',as.integer(runif(4)*65536)),collapse=''),'.tmp',sep='')
   
   ## if there is a common script, source it first
+  root <- getOption("rws_root")
   common <- paste(root,"/web.R/common.R",sep='')
   if (isTRUE(file.exists(common))) source(paste(root,"/web.R/common.R",sep=''))
 }

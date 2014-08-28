@@ -43,7 +43,7 @@
     }
 
     .GlobalEnv$request <- request
-    if(exists('init') && is.function(init)) init()
+    if(exists('.init') && is.function(.init)) .init()
 
     source(sfn, local=TRUE)
     as.WebResult(do.call(run, pars))
@@ -56,7 +56,7 @@ URLenc <- function(x) unlist(lapply(x, URLencode))
 
 ### this maps the Rhttpd/Rserve direct HTTP API into .run
 .http.request <- function(url, query, body, headers) {
-  if (is.null(root)) root <- "/var/FastRWeb"
+  root <- getOption("rws_root")
   # FIXME: this is somewhat stupid - we already have the decoded query and we have to re-encode it
   #        we should create a back-door for encoded queries ...
   query <- if (is.null(query)) '' else paste(URLenc(names(query)),"=",URLenc(query),collapse='&',sep='')
